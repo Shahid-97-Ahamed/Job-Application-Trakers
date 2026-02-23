@@ -42,6 +42,31 @@
             </div>
         </div>
     </header>
+    <!-- Header Section End -->
+    <!-- Main Content Start -->
+      <main class="max-w-6xl mx-auto">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-xl font-bold text-[#001f3f]">Available Jobs</h2>
+            <span class="text-gray-500 text-sm"><span id="job-count-label">8</span> jobs</span>
+        </div>
+
+        <div class="flex gap-2 mb-8">
+            <button onclick="switchTab('all')" id="tab-all" class="px-6 py-2 rounded-md text-sm font-medium transition-colors bg-blue-600 text-white">All</button>
+            <button onclick="switchTab('interview')" id="tab-interview" class="px-6 py-2 rounded-md text-sm font-medium transition-colors bg-white border text-gray-600 hover:bg-gray-50">Interview</button>
+            <button onclick="switchTab('rejected')" id="tab-rejected" class="px-6 py-2 rounded-md text-sm font-medium transition-colors bg-white border text-gray-600 hover:bg-gray-50">Rejected</button>
+        </div>
+
+        <div id="job-list" class="space-y-4">
+            </div>
+
+        <div id="empty-state" class="hidden bg-white border border-gray-100 rounded-xl py-24 flex flex-col items-center justify-center text-center">
+            <div class="bg-blue-100 p-4 rounded-xl mb-6">
+                <img src="./jobs.png" alt="No jobs" class="w-16 h-16 opacity-80">
+            </div>
+            <h3 class="text-2xl font-bold text-[#001f3f] mb-2">No jobs available</h3>
+            <p class="text-gray-500">Check back soon for new job opportunities</p>
+        </div>
+    </main>
 </body>
 <script src="scripts/index.js"></script>
 
