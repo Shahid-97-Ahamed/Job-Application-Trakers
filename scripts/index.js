@@ -71,7 +71,7 @@ function updateDashboard() {
     document.getElementById('job-count-label').innerText = tabFilteredCount;
 }
 
-
+// Delate and Status Button Handler
 document.getElementById('job-list').addEventListener('click', function(event) {
     const target = event.target;
     const jobId = parseInt(target.getAttribute('data-id'));
@@ -108,5 +108,5 @@ document.getElementById('tab-container').addEventListener('click', function(even
     render();
 });
 
-// Initial Render
+
 render();
