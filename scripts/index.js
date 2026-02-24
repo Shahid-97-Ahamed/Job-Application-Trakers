@@ -14,7 +14,12 @@ let activeTab = 'all';
 function render() {
     const jobList = document.getElementById('job-list');
     const emptyState = document.getElementById('empty-state');
-    const filtered = jobs.filter(j => activeTab === 'all' ? true : j.status === activeTab);
+    
+    
+    const filtered = jobs.filter(function(job) {
+        if (activeTab === 'all') return true;
+        return job.status === activeTab;
+    });
 
     jobList.innerHTML = '';
     
@@ -22,12 +27,13 @@ function render() {
         emptyState.classList.remove('hidden');
     } else {
         emptyState.classList.add('hidden');
-        filtered.forEach(job => {
+        filtered.forEach(function(job) {
             const card = document.createElement('div');
             card.className = "bg-white p-6 rounded-lg border border-gray-100 shadow-sm relative";
+         
             card.innerHTML = `
-                <button onclick="deleteJob(${job.id})" class="absolute top-6 right-6 text-gray-300 hover:text-red-500 transition-colors">
-                    <i class="fa-solid fa-trash-can text-lg"></i>
+                <button data-action="delete" data-id="${job.id}" class="absolute top-6 right-6 text-gray-300 hover:text-red-500 transition-colors">
+                    <i class="fa-solid fa-trash-can text-lg pointer-events-none"></i>
                 </button>
                 <h3 class="text-xl font-bold text-[#001f3f] mb-1">${job.company}</h3>
                 <p class="text-gray-600 font-medium mb-3">${job.pos}</p>
@@ -41,8 +47,8 @@ function render() {
                 </div>
                 <p class="text-gray-500 text-sm leading-relaxed mb-6 max-w-4xl">${job.desc}</p>
                 <div class="flex gap-3">
-                    <button onclick="setStatus(${job.id}, 'interview')" class="px-4 py-1.5 border rounded-md text-sm font-semibold transition-all ${job.status === 'interview' ? 'bg-[#10b981] text-white border-[#10b981]' : 'text-[#10b981] border-[#10b981] hover:bg-green-50'}">INTERVIEW</button>
-                    <button onclick="setStatus(${job.id}, 'rejected')" class="px-4 py-1.5 border rounded-md text-sm font-semibold transition-all ${job.status === 'rejected' ? 'bg-[#ef4444] text-white border-[#ef4444]' : 'text-[#ef4444] border-[#ef4444] hover:bg-red-50'}">REJECTED</button>
+                    <button data-action="status" data-status="interview" data-id="${job.id}" class="px-4 py-1.5 border rounded-md text-sm font-semibold transition-all ${job.status === 'interview' ? 'bg-[#10b981] text-white border-[#10b981]' : 'text-[#10b981] border-[#10b981] hover:bg-green-50'}">INTERVIEW</button>
+                    <button data-action="status" data-status="rejected" data-id="${job.id}" class="px-4 py-1.5 border rounded-md text-sm font-semibold transition-all ${job.status === 'rejected' ? 'bg-[#ef4444] text-white border-[#ef4444]' : 'text-[#ef4444] border-[#ef4444] hover:bg-red-50'}">REJECTED</button>
                 </div>
             `;
             jobList.appendChild(card);
@@ -51,37 +57,13 @@ function render() {
     updateDashboard();
 }
 
-
-function setStatus(id, status) {
-    const job = jobs.find(j => j.id === id);
-    // Toggle status: Jodi current status is same as clicked status, reset to 'all' (Not Applied), else set to clicked status
-    job.status = (job.status === status) ? 'all' : status;
-    render();
-}
-
-function deleteJob(id) {
-    jobs = jobs.filter(j => j.id !== id);
-    render();
-}
-
-function switchTab(tab) {
-    activeTab = tab;
-    // change UI of Tab Buttons
-    ['all', 'interview', 'rejected'].forEach(t => {
-        const btn = document.getElementById(`tab-${t}`);
-        if (t === tab) {
-            btn.className = "px-6 py-2 rounded-md text-sm font-medium transition-colors bg-blue-600 text-white";
-        } else {
-            btn.className = "px-6 py-2 rounded-md text-sm font-medium transition-colors bg-white border text-gray-600 hover:bg-gray-50";
-        }
-    });
-    render();
-}
-
 function updateDashboard() {
-    const interviewCount = jobs.filter(j => j.status === 'interview').length;
-    const rejectedCount = jobs.filter(j => j.status === 'rejected').length;
-    const tabFilteredCount = jobs.filter(j => activeTab === 'all' ? true : j.status === activeTab).length;
+    const interviewCount = jobs.filter(function(j) { return j.status === 'interview' }).length;
+    const rejectedCount = jobs.filter(function(j) { return j.status === 'rejected' }).length;
+    
+    const tabFilteredCount = jobs.filter(function(j) {
+        return activeTab === 'all' ? true : j.status === activeTab;
+    }).length;
 
     document.getElementById('stat-total').innerText = jobs.length;
     document.getElementById('stat-interview').innerText = interviewCount;
@@ -89,4 +71,42 @@ function updateDashboard() {
     document.getElementById('job-count-label').innerText = tabFilteredCount;
 }
 
+
+document.getElementById('job-list').addEventListener('click', function(event) {
+    const target = event.target;
+    const jobId = parseInt(target.getAttribute('data-id'));
+    const action = target.getAttribute('data-action');
+
+    if (action === 'delete') {
+        jobs = jobs.filter(function(job) { return job.id !== jobId });
+        render();
+    } 
+    else if (action === 'status') {
+        const newStatus = target.getAttribute('data-status');
+        const job = jobs.find(function(j) { return j.id === jobId });
+        job.status = (job.status === newStatus) ? 'all' : newStatus;
+        render();
+    }
+});
+
+// Tab Click Handler
+document.getElementById('tab-container').addEventListener('click', function(event) {
+    const tab = event.target.getAttribute('data-tab');
+    if (!tab) return;
+
+    activeTab = tab;
+    const tabs = ['all', 'interview', 'rejected'];
+    
+    tabs.forEach(function(t) {
+        const btn = document.getElementById('tab-' + t);
+        if (t === tab) {
+            btn.className = "px-6 py-2 rounded-md text-sm font-medium transition-colors bg-blue-600 text-white";
+        } else {
+            btn.className = "px-6 py-2 rounded-md text-sm font-medium transition-colors bg-white border text-gray-600 hover:bg-gray-50";
+        }
+    });
+    render();
+});
+
+// Initial Render
 render();
