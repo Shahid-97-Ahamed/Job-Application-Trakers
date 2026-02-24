@@ -50,11 +50,13 @@
             <span class="text-gray-500 text-sm"><span id="job-count-label">8</span> jobs</span>
         </div>
 
-        <div class="flex gap-2 mb-8">
-            <button onclick="switchTab('all')" id="tab-all" class="px-6 py-2 rounded-md text-sm font-medium transition-colors bg-blue-600 text-white">All</button>
-            <button onclick="switchTab('interview')" id="tab-interview" class="px-6 py-2 rounded-md text-sm font-medium transition-colors bg-white border text-gray-600 hover:bg-gray-50">Interview</button>
-            <button onclick="switchTab('rejected')" id="tab-rejected" class="px-6 py-2 rounded-md text-sm font-medium transition-colors bg-white border text-gray-600 hover:bg-gray-50">Rejected</button>
-        </div>
+       <div id="tab-container" class="flex gap-2 mb-8">
+    <button data-tab="all" id="tab-all" class="px-6 py-2 rounded-md text-sm font-medium transition-colors bg-blue-600 text-white">All</button>
+    <button data-tab="interview" id="tab-interview" class="px-6 py-2 rounded-md text-sm font-medium transition-colors bg-white border text-gray-600 hover:bg-gray-50">Interview</button>
+    <button data-tab="rejected" id="tab-rejected" class="px-6 py-2 rounded-md text-sm font-medium transition-colors bg-white border text-gray-600 hover:bg-gray-50">Rejected</button>
+</div>
+
+<div id="job-list" class="space-y-4"></div>
 
         <div id="job-list" class="space-y-4">
             </div>

@@ -50,3 +50,43 @@ function render() {
     }
     updateDashboard();
 }
+
+
+function setStatus(id, status) {
+    const job = jobs.find(j => j.id === id);
+    // Toggle status: Jodi current status is same as clicked status, reset to 'all' (Not Applied), else set to clicked status
+    job.status = (job.status === status) ? 'all' : status;
+    render();
+}
+
+function deleteJob(id) {
+    jobs = jobs.filter(j => j.id !== id);
+    render();
+}
+
+function switchTab(tab) {
+    activeTab = tab;
+    // change UI of Tab Buttons
+    ['all', 'interview', 'rejected'].forEach(t => {
+        const btn = document.getElementById(`tab-${t}`);
+        if (t === tab) {
+            btn.className = "px-6 py-2 rounded-md text-sm font-medium transition-colors bg-blue-600 text-white";
+        } else {
+            btn.className = "px-6 py-2 rounded-md text-sm font-medium transition-colors bg-white border text-gray-600 hover:bg-gray-50";
+        }
+    });
+    render();
+}
+
+function updateDashboard() {
+    const interviewCount = jobs.filter(j => j.status === 'interview').length;
+    const rejectedCount = jobs.filter(j => j.status === 'rejected').length;
+    const tabFilteredCount = jobs.filter(j => activeTab === 'all' ? true : j.status === activeTab).length;
+
+    document.getElementById('stat-total').innerText = jobs.length;
+    document.getElementById('stat-interview').innerText = interviewCount;
+    document.getElementById('stat-rejected').innerText = rejectedCount;
+    document.getElementById('job-count-label').innerText = tabFilteredCount;
+}
+
+render();
