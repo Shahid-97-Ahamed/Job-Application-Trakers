@@ -15,7 +15,7 @@ https://shahid-97-ahamed.github.io/Job-Application-Trakers/
 
 ## 📸 Screenshot
 
-![Job Application Tracker](./assets/screenshot.png)
+![Job Application Tracker](./screenshot.png)
 
 ---
 
@@ -24,6 +24,7 @@ https://shahid-97-ahamed.github.io/Job-Application-Trakers/
 - HTML5
 - CSS3
 - JavaScript (Vanilla JS)
+- TailwindCSS
 - LocalStorage API
 
 ---
@@ -33,8 +34,8 @@ https://shahid-97-ahamed.github.io/Job-Application-Trakers/
 - Add new job applications
 - Track application status
 - Store company name and job details
-- Save data using browser LocalStorage
-- Simple and clean UI
+- Save application data using LocalStorage
+- Simple and clean user interface
 - Responsive layout
 
 ---
@@ -44,10 +45,10 @@ https://shahid-97-ahamed.github.io/Job-Application-Trakers/
 Job-Application-Trakers
 │
 ├── index.html
-├── styles.css
-├── script.js
-├── assets
-│   └── screenshot.png
+├── scripts/
+│   └── script.js
+├── jobs.png
+├── tailwind.config.js
 └── README.md
 
 ---
@@ -55,19 +56,20 @@ Job-Application-Trakers
 ## 📚 What I Learned
 
 - DOM manipulation with JavaScript
-- Creating interactive forms
-- Managing application data
+- Handling form input data
+- Managing application state
 - Using LocalStorage for persistent data
-- Organizing front-end project files
+- Structuring a front-end project
 
 ---
 
 ## 🔮 Future Improvements
 
 - Add edit and delete options
-- Add search and filter features
-- Add application status categories
-- Connect with backend API
+- Add search and filter functionality
+- Add job application status categories
+- Connect with backend database
+- Add authentication system
 
 ---
 
@@ -77,3 +79,7 @@ AHAMED SHAHID
 
 GitHub  
 https://github.com/Shahid-97-Ahamed
+
+---
+
+⭐ If you like this project, feel free to star the repository.
